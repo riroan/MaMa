@@ -6,6 +6,8 @@
 
 Python만 쓰다가 C++ 쓰려니 손이 떨리는군요.
 
+순수 standard 라이브러리만 사용했습니다..
+
 ## Implementation
 ```
 MaMa.cpp
