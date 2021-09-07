@@ -23,4 +23,4 @@ MaMa.cpp
 - check_lump : O(1)
 - check_edge : O(1)
 
-☞ 총합 : O(WH + K)  (한번 방문한 돌은 다시 방문 안함)
+☞ 총합 : O(WHK)
