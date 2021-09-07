@@ -65,6 +65,7 @@ int main() {
 	mt19937 gen(rd());
 	uniform_int_distribution<int> dist(1, w * h - 1); // 시작점과 맨 끝점은 뺌
 	vector<vector<bool>> v(h);
+	vector<bool> check(w * h, false);
 	for (int r = 0; r < h; r++) {
 		v[r] = vector<bool>(w);
 		for (int c = 0; c < w; c++)
@@ -76,6 +77,8 @@ int main() {
 	for (int i = 0; i < 10000; i++) {
 		vector<vector<bool>> visited(h, vector<bool>(w, false));
 		int block = dist(gen);
+		if (check[block])
+			continue;
 		int r = block / w, c = block % w;
 		v[r][c] = true;
 		// 1. 도착점까지 못가면 안되고..
@@ -84,6 +87,7 @@ int main() {
 		// 4. 가장자리에 연속해서 있으면 안되고..
 		if (!(flood_fill(v, 0, 0, w, h, visited) && check_hole(v, visited, h, w)) || check_lump(v, r, c, h, w) || check_edge(v, r, c, h, w))
 			v[r][c] = false;
+		check[block] = true;
 	}
 
 	chrono::duration<double> duration = chrono::system_clock::now() - start;
