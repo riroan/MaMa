@@ -13,4 +13,4 @@ MaMa.cpp
 ```
 
 ## Demo
-![demo]("./images/20x20.png")
+![demo](./images/20x20.PNG)
