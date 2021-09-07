@@ -24,9 +24,18 @@ bool check_hole(const vector<vector<bool>>& v, const vector<vector<bool>>& visit
 }
 
 bool check_lump(const vector<vector<bool>>& v, const int& x, const int& y, const int& h, const int& w) {
-	if (x == w - 1 || y == h - 1)
-		return false;
-	return v[x][y] && v[x + 1][y] && v[x][y + 1] && v[x + 1][y + 1];
+	if (x == w - 1)
+		return (y > 0 ? v[x][y - 1] : false) || (y < w - 1 ? v[x][y + 1] : false);
+	if (y == h - 1)
+		return (x > 0 ? v[x - 1][y] : false) || (x < h - 1 ? v[x + 1][y] : false);
+	if (x == 0)
+		return (y > 0 ? v[x][y - 1] : false) || (y < w - 1 ? v[x][y + 1] : false);
+	if (y == 0)
+		return (y > 0 ? v[x][y - 1] : false) || (y < w - 1 ? v[x][y + 1] : false);
+	return v[x + 1][y] && v[x][y + 1] && v[x + 1][y + 1] ||
+		v[x + 1][y] && v[x][y - 1] && v[x + 1][y - 1] ||
+		v[x - 1][y] && v[x][y + 1] && v[x - 1][y + 1] ||
+		v[x - 1][y] && v[x][y - 1] && v[x - 1][y - 1];
 }
 
 bool check_edge(const vector<vector<bool>>& v, const int& x, const int& y, const int& h, const int& w) {
@@ -85,8 +94,10 @@ int main() {
 		// 2. 구멍이 생기면 안되고..
 		// 3. 너무 튼튼하게(?) 막으면 안되고..
 		// 4. 가장자리에 연속해서 있으면 안되고..
-		if (!(flood_fill(v, 0, 0, w, h, visited) && check_hole(v, visited, h, w)) || check_lump(v, r, c, h, w) || check_edge(v, r, c, h, w))
+		if (!(flood_fill(v, 0, 0, w, h, visited) && check_hole(v, visited, h, w)) || check_lump(v, r, c, h, w) || check_edge(v, r, c, h, w)) {
 			v[r][c] = false;
+			continue;
+		}
 		check[block] = true;
 	}
 
@@ -94,5 +105,5 @@ int main() {
 
 	draw_map(v, h, w);
 
-	cout << "elapsed time : " << duration.count() << " seconds";
+	cout << "elapsed time : " << duration.count() << " seconds" << endl;	
 }
